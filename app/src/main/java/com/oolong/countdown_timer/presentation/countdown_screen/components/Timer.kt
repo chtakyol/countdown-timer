@@ -15,8 +15,12 @@ fun Timer(
     isRunning: Boolean = false,
     min: Int = 59,
     sec: Int = 59,
-    color: Color = Color.Black
+    color: Color = Color.Black,
+    onDurationChange: (Int) -> Unit
 ){
+
+    val minState = remember { mutableStateOf(min) }
+    val secState = remember { mutableStateOf(sec) }
 
     Column(
         
@@ -26,10 +30,12 @@ fun Timer(
         ) {
             if (!isRunning) {
                 NumberPicker(
-                    state = remember { mutableStateOf(min) },
+                    state = minState,
                     range = 0..99,
                     textStyle = MaterialTheme.typography.body2
-                )
+                ) {
+                    onDurationChange(it * 60 + secState.value)
+                }
             } else {
                 Text(
                     text = min.toString(),
@@ -49,10 +55,12 @@ fun Timer(
         ) {
             if (!isRunning) {
                 NumberPicker(
-                    state = remember { mutableStateOf(sec) },
+                    state = secState,
                     range = 0..59,
-                    textStyle = MaterialTheme.typography.body2
-                )
+                    textStyle = MaterialTheme.typography.body2,
+                ) {
+                    onDurationChange(minState.value * 60 + it)
+                }
             } else {
                 Text(
                     text = sec.toString(),
@@ -60,7 +68,6 @@ fun Timer(
                     style = MaterialTheme.typography.body2
                 )
             }
-
             Spacer(modifier = Modifier.width(24.dp))
             Text(
                 text = "sec".uppercase(),
@@ -74,5 +81,5 @@ fun Timer(
 @Preview
 @Composable
 fun PreviewTimer(){
-    Timer()
+    Timer(){}
 }
