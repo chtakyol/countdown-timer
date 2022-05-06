@@ -19,6 +19,7 @@ import com.oolong.countdown_timer.utils.Constants.ACTION_STOP_SERVICE
 import com.oolong.countdown_timer.utils.Constants.NOTIFICATION_CHANNEL_ID
 import com.oolong.countdown_timer.utils.Constants.NOTIFICATION_CHANNEL_NAME
 import com.oolong.countdown_timer.utils.Constants.NOTIFICATION_ID
+import com.oolong.countdown_timer.utils.Utilities
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -91,7 +92,7 @@ class CountdownService: LifecycleService() {
             .setOngoing(true)
 //            .setSmallIcon(R.drawable.ic_baseline_alarm_24)
             .setContentTitle("Background Timer")
-            .setContentText("00:00:00")
+            .setContentText(Utilities.getNotificationText(durationInMillis.value))
             .setContentIntent(getMainActivityPendingIntent())
 
         startForeground(

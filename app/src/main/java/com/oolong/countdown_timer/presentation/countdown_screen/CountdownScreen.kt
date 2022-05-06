@@ -13,13 +13,14 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.oolong.countdown_timer.presentation.countdown_screen.components.StartStopButton
 import com.oolong.countdown_timer.presentation.countdown_screen.components.Timer
+import com.oolong.countdown_timer.utils.Utilities
 
 @Composable
 fun CountdownScreen(
     viewModel: CountdownScreenViewModel = hiltViewModel(),
     onStartStopClick: (Long) -> Unit
 ){
-    var duration by remember {mutableStateOf(0L)}
+    var duration by remember { mutableStateOf(0L) }
     Scaffold(
         topBar = {
             Row(
@@ -53,8 +54,8 @@ fun CountdownScreen(
         ) {
             Timer(
                 isRunning = viewModel.isRunning.value,
-                min = viewModel.getMin(viewModel.duration.value),
-                sec = viewModel.getSec(viewModel.duration.value)
+                min = Utilities.getMin(viewModel.duration.value),
+                sec = Utilities.getSec(viewModel.duration.value)
             ) {
                 duration = it
             }
