@@ -11,12 +11,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.oolong.countdown_timer.presentation.countdown_screen.components.StartStopButton
 import com.oolong.countdown_timer.presentation.countdown_screen.components.Timer
+import com.oolong.countdown_timer.utils.Screen
 import com.oolong.countdown_timer.utils.Utilities
 
 @Composable
 fun CountdownScreen(
+    navController: NavController,
     viewModel: CountdownScreenViewModel = hiltViewModel(),
     onStartStopClick: (Long) -> Unit
 ){
@@ -35,7 +38,7 @@ fun CountdownScreen(
                 )
                 IconButton(
                     onClick = {
-                        // TODO Navigate settings screen
+                        navController.navigate(Screen.SettingsScreen.route)
                     }
                 ) {
                     Icon(
