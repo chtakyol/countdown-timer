@@ -17,9 +17,9 @@ import com.oolong.countdown_timer.presentation.countdown_screen.components.Timer
 @Composable
 fun CountdownScreen(
     viewModel: CountdownScreenViewModel = hiltViewModel(),
-    onStartStopClick: (Int) -> Unit
+    onStartStopClick: (Long) -> Unit
 ){
-    var duration by remember {mutableStateOf(30)}
+    var duration by remember {mutableStateOf(0L)}
     Scaffold(
         topBar = {
             Row(
@@ -53,7 +53,8 @@ fun CountdownScreen(
         ) {
             Timer(
                 isRunning = viewModel.isRunning.value,
-                sec = viewModel.sec.value
+                min = viewModel.getMin(viewModel.duration.value),
+                sec = viewModel.getSec(viewModel.duration.value)
             ) {
                 duration = it
             }

@@ -28,8 +28,7 @@ class CountdownService: LifecycleService() {
 
     companion object {
         val isRunning = mutableStateOf(false)
-        val min = mutableStateOf(59)
-        val sec = mutableStateOf(0)
+        val durationInMillis = mutableStateOf(0L)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -37,7 +36,8 @@ class CountdownService: LifecycleService() {
             when(it.action) {
                 ACTION_START_OR_RESUME_SERVICE -> {
                     Log.d("Service", "Service start or resume")
-                    setTimerDuration(it.getIntExtra("duration", 0))
+                    setTimerDuration(it.getLongExtra("duration", 0L))
+                    Log.d("Service", durationInMillis.toString())
                     startCountdownForegroundService()
                     startTimer()
                 }
@@ -55,15 +55,15 @@ class CountdownService: LifecycleService() {
         return super.onStartCommand(intent, flags, startId)
     }
 
-    private fun setTimerDuration(duration: Int) {
-        sec.value = duration
+    private fun setTimerDuration(duration: Long) {
+        CountdownService.durationInMillis.value = duration
     }
 
     private fun startTimer() {
         CoroutineScope(Dispatchers.Main).launch {
-            while(sec.value > 0 && isRunning.value) {
-                Log.d("CountdownService", sec.value.toString())
-                sec.value -= 1
+            while(durationInMillis.value > 0 && isRunning.value) {
+                Log.d("CountdownService", durationInMillis.value.toString())
+                durationInMillis.value -= 1000
                 delay(1000)
             }
         }

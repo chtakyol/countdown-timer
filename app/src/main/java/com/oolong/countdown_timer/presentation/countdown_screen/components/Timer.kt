@@ -16,7 +16,7 @@ fun Timer(
     min: Int = 59,
     sec: Int = 59,
     color: Color = Color.Black,
-    onDurationChange: (Int) -> Unit
+    onDurationChange: (Long) -> Unit
 ){
 
     val minState = remember { mutableStateOf(min) }
@@ -34,7 +34,7 @@ fun Timer(
                     range = 0..99,
                     textStyle = MaterialTheme.typography.body2
                 ) {
-                    onDurationChange(it * 60 + secState.value)
+                    onDurationChange((it * 60 + secState.value) * 1000L)
                 }
             } else {
                 Text(
@@ -59,7 +59,7 @@ fun Timer(
                     range = 0..59,
                     textStyle = MaterialTheme.typography.body2,
                 ) {
-                    onDurationChange(minState.value * 60 + it)
+                    onDurationChange((minState.value * 60 + it) * 1000L)
                 }
             } else {
                 Text(
