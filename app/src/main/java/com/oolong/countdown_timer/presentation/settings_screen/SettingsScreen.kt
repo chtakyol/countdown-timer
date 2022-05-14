@@ -10,6 +10,7 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -24,11 +25,22 @@ fun SettingsScreen(
     navController: NavController,
     viewModel: SettingsScreenViewModel = hiltViewModel(),
 ) {
+    var textColor = Color.Black
+    var backgroundColor = Color.White
+    val isDark = true
+    if(isDark) {
+        textColor = Color.White
+        backgroundColor = Color.Black
+    } else {
+        textColor = Color.Black
+        backgroundColor = Color.White
+    }
+
+
     Scaffold(
         topBar = {
             Row(
                 modifier = Modifier
-                    .fillMaxWidth()
                     .padding(horizontal = 8.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
@@ -40,14 +52,17 @@ fun SettingsScreen(
                 ) {
                     Icon(
                         imageVector = Icons.Default.ArrowBack,
-                        contentDescription = "Settings"
+                        contentDescription = "Settings",
+                        tint = textColor
                     )
                 }
                 Text(
-                    text = "Settings"
+                    text = "Settings",
+                    color = textColor
                 )
             }
-        }
+        },
+        backgroundColor = backgroundColor
     ) {
         Column(
 
@@ -56,12 +71,16 @@ fun SettingsScreen(
                 modifier = Modifier
                     .padding(8.dp)
             ) {
-                Text(text = "Notification")
+                Text(
+                    text = "Notification",
+                    color = textColor
+                )
                 SettingsCardItem(
                     imageVector = Icons.Default.RemoveRedEye,
                     cardHeader = "Show notification",
                     cardExplanation = "Hide or show notification",
-                    isChecked = viewModel.showNotificationState
+                    isChecked = viewModel.showNotificationState,
+                    isDark = isDark
                 ) {
                     viewModel.showNotificationState = it
                     viewModel.onEvent(SettingsScreenEvent.ShowNotificationToggleButton)
@@ -70,7 +89,8 @@ fun SettingsScreen(
                     imageVector = Icons.Default.VolumeMute,
                     cardHeader = "Mute notification",
                     cardExplanation = "Mute or un-mute notification",
-                    isChecked = viewModel.muteNotificationState
+                    isChecked = viewModel.muteNotificationState,
+                    isDark = isDark
                 ) {
                     viewModel.muteNotificationState = it
                     viewModel.onEvent(SettingsScreenEvent.NotificationSoundToggleButton)
@@ -80,36 +100,35 @@ fun SettingsScreen(
                     modifier = Modifier
                         .padding(8.dp)
                     ) {
-                Text(text = "Theme")
+                Text(
+                    text = "Theme",
+                    color = textColor
+                )
                 SettingsCardItem(
                     imageVector = Icons.Default.Lightbulb,
                     cardHeader = "Dark theme",
                     cardExplanation = "Enable dark theme",
-                    isChecked = viewModel.darkThemeState
+                    isChecked = viewModel.darkThemeState,
+                    isDark = isDark
                 ) {
                     viewModel.darkThemeState = it
                     viewModel.onEvent(SettingsScreenEvent.DarkThemeToggleButton)
-                }
-                SettingsCardItem(
-                    imageVector = Icons.Default.VolumeMute,
-                    cardHeader = "Get blue/white theme",
-                    cardExplanation = "Sets apps theme blue and white color. " +
-                            "\nNeed watch add first.",
-                    isChecked = viewModel.blueWhiteThemeState
-                ) {
-                    viewModel.onEvent(SettingsScreenEvent.BlueWhiteThemeToggleButton)
                 }
             }
             Column(
                 modifier = Modifier
                     .padding(8.dp)
             ) {
-                Text(text = "Premium")
+                Text(
+                    text = "Premium",
+                    color = textColor
+                )
                 SettingsCardItem(
                     imageVector = Icons.Default.Favorite,
                     cardHeader = "Get pro",
                     cardExplanation = "Get app pro version and remove ads",
-                    isChecked = viewModel.proState
+                    isChecked = viewModel.proState,
+                    isDark = isDark
                 ) {
                     viewModel.proState = it
                     viewModel.onEvent(SettingsScreenEvent.GetProButton)
