@@ -9,6 +9,7 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -23,7 +24,22 @@ fun CountdownScreen(
     viewModel: CountdownScreenViewModel = hiltViewModel(),
     onStartStopClick: (Long) -> Unit
 ){
+    val theme = "dark"
+    var textColor = Color.Black
+    var backgroundColor = Color.White
+    when (theme) {
+        "white" -> {
+            textColor = Color.Black
+            backgroundColor = Color.White
+        }
+        "dark" -> {
+            textColor = Color.White
+            backgroundColor = Color.Black
+        }
+    }
+
     var duration by remember { mutableStateOf(0L) }
+
     Scaffold(
         topBar = {
             Row(
@@ -34,7 +50,8 @@ fun CountdownScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Countdown Timer"
+                    text = "Countdown Timer",
+                    color = textColor
                 )
                 IconButton(
                     onClick = {
@@ -43,11 +60,13 @@ fun CountdownScreen(
                 ) {
                     Icon(
                         imageVector = Icons.Default.Settings,
-                        contentDescription = "Settings"
+                        contentDescription = "Settings",
+                        tint = textColor
                     )
                 }
             }
-        }
+        },
+        backgroundColor = backgroundColor
     ) {
         Column(
             modifier = Modifier
@@ -58,11 +77,13 @@ fun CountdownScreen(
             Timer(
                 isRunning = viewModel.isRunning.value,
                 min = Utilities.getMin(viewModel.duration.value),
-                sec = Utilities.getSec(viewModel.duration.value)
+                sec = Utilities.getSec(viewModel.duration.value),
+                color = textColor
             ) {
                 duration = it
             }
             StartStopButton(
+                color = textColor,
                 isRunning =  viewModel.isRunning.value,
                 onClick = {
                     onStartStopClick(duration)
