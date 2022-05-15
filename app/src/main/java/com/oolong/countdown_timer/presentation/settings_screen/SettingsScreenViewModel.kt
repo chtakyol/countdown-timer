@@ -25,7 +25,6 @@ class SettingsScreenViewModel @Inject constructor(
     var showNotificationState by mutableStateOf(true)
     var muteNotificationState by mutableStateOf(true)
     var darkThemeState by mutableStateOf(false)
-    var blueWhiteThemeState by mutableStateOf(false)
     var proState by mutableStateOf(false)
 
 
@@ -48,14 +47,6 @@ class SettingsScreenViewModel @Inject constructor(
                     userPreferencesRepository.putBoolean(
                         MUTE_NOTIFICATION_SOUND,
                         muteNotificationState
-                    )
-                }
-            }
-            SettingsScreenEvent.BlueWhiteThemeToggleButton -> {
-                viewModelScope.launch {
-                    userPreferencesRepository.putBoolean(
-                        BLUE_WHITE_THEME_ENABLE,
-                        blueWhiteThemeState
                     )
                 }
             }
@@ -97,12 +88,6 @@ class SettingsScreenViewModel @Inject constructor(
             userPreferencesRepository.getBoolean(DARK_THEME_ENABLE).let {
                 if (it != null) {
                     darkThemeState = it
-                }
-            }
-
-            userPreferencesRepository.getBoolean(BLUE_WHITE_THEME_ENABLE).let {
-                if (it != null) {
-                    blueWhiteThemeState = it
                 }
             }
 

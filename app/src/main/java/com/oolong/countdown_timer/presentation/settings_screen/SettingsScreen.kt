@@ -27,15 +27,13 @@ fun SettingsScreen(
 ) {
     var textColor = Color.Black
     var backgroundColor = Color.White
-    val isDark = true
-    if(isDark) {
+    if(viewModel.darkThemeState) {
         textColor = Color.White
         backgroundColor = Color.Black
     } else {
         textColor = Color.Black
         backgroundColor = Color.White
     }
-
 
     Scaffold(
         topBar = {
@@ -80,7 +78,7 @@ fun SettingsScreen(
                     cardHeader = "Show notification",
                     cardExplanation = "Hide or show notification",
                     isChecked = viewModel.showNotificationState,
-                    isDark = isDark
+                    isDark = viewModel.darkThemeState
                 ) {
                     viewModel.showNotificationState = it
                     viewModel.onEvent(SettingsScreenEvent.ShowNotificationToggleButton)
@@ -90,7 +88,7 @@ fun SettingsScreen(
                     cardHeader = "Mute notification",
                     cardExplanation = "Mute or un-mute notification",
                     isChecked = viewModel.muteNotificationState,
-                    isDark = isDark
+                    isDark = viewModel.darkThemeState
                 ) {
                     viewModel.muteNotificationState = it
                     viewModel.onEvent(SettingsScreenEvent.NotificationSoundToggleButton)
@@ -109,7 +107,7 @@ fun SettingsScreen(
                     cardHeader = "Dark theme",
                     cardExplanation = "Enable dark theme",
                     isChecked = viewModel.darkThemeState,
-                    isDark = isDark
+                    isDark = viewModel.darkThemeState
                 ) {
                     viewModel.darkThemeState = it
                     viewModel.onEvent(SettingsScreenEvent.DarkThemeToggleButton)
@@ -128,7 +126,7 @@ fun SettingsScreen(
                     cardHeader = "Get pro",
                     cardExplanation = "Get app pro version and remove ads",
                     isChecked = viewModel.proState,
-                    isDark = isDark
+                    isDark = viewModel.darkThemeState
                 ) {
                     viewModel.proState = it
                     viewModel.onEvent(SettingsScreenEvent.GetProButton)

@@ -4,6 +4,5 @@ sealed class SettingsScreenEvent {
     object ShowNotificationToggleButton: SettingsScreenEvent()
     object NotificationSoundToggleButton: SettingsScreenEvent()
     object DarkThemeToggleButton: SettingsScreenEvent()
-    object BlueWhiteThemeToggleButton: SettingsScreenEvent()
     object GetProButton: SettingsScreenEvent()
 }
