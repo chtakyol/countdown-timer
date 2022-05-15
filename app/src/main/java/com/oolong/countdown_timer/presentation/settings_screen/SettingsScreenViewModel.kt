@@ -3,12 +3,10 @@ package com.oolong.countdown_timer.presentation.settings_screen
 import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.oolong.countdown_timer.domain.repository.UserPreferencesRepository
-import com.oolong.countdown_timer.utils.Constants.BLUE_WHITE_THEME_ENABLE
 import com.oolong.countdown_timer.utils.Constants.DARK_THEME_ENABLE
 import com.oolong.countdown_timer.utils.Constants.GET_PRO_STATE
 import com.oolong.countdown_timer.utils.Constants.MUTE_NOTIFICATION_SOUND

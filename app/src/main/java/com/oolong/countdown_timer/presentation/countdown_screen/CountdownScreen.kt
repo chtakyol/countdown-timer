@@ -27,15 +27,12 @@ fun CountdownScreen(
     val theme = "dark"
     var textColor = Color.Black
     var backgroundColor = Color.White
-    when (theme) {
-        "white" -> {
-            textColor = Color.Black
-            backgroundColor = Color.White
-        }
-        "dark" -> {
-            textColor = Color.White
-            backgroundColor = Color.Black
-        }
+    if(viewModel.darkThemeState) {
+        textColor = Color.White
+        backgroundColor = Color.Black
+    } else {
+        textColor = Color.Black
+        backgroundColor = Color.White
     }
 
     var duration by remember { mutableStateOf(0L) }
