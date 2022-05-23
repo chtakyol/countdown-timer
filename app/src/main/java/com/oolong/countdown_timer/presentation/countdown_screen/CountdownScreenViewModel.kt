@@ -19,7 +19,8 @@ class CountdownScreenViewModel @Inject constructor(
 ): ViewModel() {
     var isRunning = CountdownService.isRunning
     var duration = CountdownService.durationInMillis
-//    var sec = CountdownService.durationInMillis
+    var showNotificationState by mutableStateOf(true)
+    var muteNotificationState by mutableStateOf(true)
 
     var darkThemeState by mutableStateOf(false)
 
@@ -33,6 +34,17 @@ class CountdownScreenViewModel @Inject constructor(
 
     private fun getUserPreferences() {
         viewModelScope.launch {
+            userPreferencesRepository.getBoolean(Constants.SHOW_NOTIFICATION).let {
+                if (it != null) {
+                    showNotificationState = it
+                }
+            }
+
+            userPreferencesRepository.getBoolean(Constants.MUTE_NOTIFICATION_SOUND).let {
+                if (it != null) {
+                    muteNotificationState = it
+                }
+            }
             userPreferencesRepository.getBoolean(Constants.DARK_THEME_ENABLE).let {
                 if (it != null) {
                     darkThemeState = it

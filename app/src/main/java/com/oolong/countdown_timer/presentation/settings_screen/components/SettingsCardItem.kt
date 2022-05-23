@@ -2,9 +2,11 @@ package com.oolong.countdown_timer.presentation.settings_screen.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Switch
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.OndemandVideo
 import androidx.compose.material.icons.filled.VolumeUp
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -22,6 +24,8 @@ fun SettingsCardItem(
     cardExplanation: String = "Explanation",
     isChecked: Boolean = true,
     isDark: Boolean = false,
+    isLocked: Boolean = false,
+    onLockedClicked: () -> Unit = {},
     onClick: (Boolean) -> Unit
 ){
     val color = if(isDark) {
@@ -60,29 +64,35 @@ fun SettingsCardItem(
                 )
             }
         }
-        Switch(
-            checked = isChecked,
-            onCheckedChange = {
-                val emittedCheckedState = !isChecked
-                onClick(emittedCheckedState)
-            }
-        )
 
-//        IconButton(
-//            onClick = onClick
-//        ) {
-//            Icon(
-//                imageVector = buttonIconImageVector,
-//                contentDescription = "Buttons icon"
-//            )
-//        }
+        if(isLocked) {
+            IconButton(
+                onClick = onLockedClicked
+            ) {
+                Icon(
+                    imageVector = Icons.Default.OndemandVideo,
+                    contentDescription = "Buttons icon",
+                    tint = color
+                )
+            }
+        } else {
+            Switch(
+                checked = isChecked,
+                onCheckedChange = {
+                    val emittedCheckedState = !isChecked
+                    onClick(emittedCheckedState)
+                }
+            )
+        }
     }
 }
 
 @Composable
 @Preview
 fun PreviewSettingsCardItem() {
-    SettingsCardItem() {
+    SettingsCardItem(
+        onLockedClicked = {}
+    ) {
         
     }
 }

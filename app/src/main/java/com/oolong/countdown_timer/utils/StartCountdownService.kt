@@ -7,10 +7,12 @@ import androidx.annotation.RequiresApi
 import com.oolong.countdown_timer.services.CountdownService
 
 @RequiresApi(Build.VERSION_CODES.O)
-fun Context.startCountdownService(action: String, duration: Long) {
+fun Context.startCountdownService(action: String, userPreferencesForNotification: UserPreferencesForNotification) {
     Intent(this, CountdownService::class.java).also {
         it.action = action
-        it.putExtra("duration", duration)
+        it.putExtra("duration", userPreferencesForNotification.duration)
+        it.putExtra("showNotificationState", userPreferencesForNotification.showNotificationState)
+        it.putExtra("notificationSoundState", userPreferencesForNotification.notificationSoundState)
         this.startForegroundService(it)
     }
 }

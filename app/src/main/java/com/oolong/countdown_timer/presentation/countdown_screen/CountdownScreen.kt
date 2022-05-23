@@ -16,15 +16,15 @@ import androidx.navigation.NavController
 import com.oolong.countdown_timer.presentation.countdown_screen.components.StartStopButton
 import com.oolong.countdown_timer.presentation.countdown_screen.components.Timer
 import com.oolong.countdown_timer.utils.Screen
+import com.oolong.countdown_timer.utils.UserPreferencesForNotification
 import com.oolong.countdown_timer.utils.Utilities
 
 @Composable
 fun CountdownScreen(
     navController: NavController,
     viewModel: CountdownScreenViewModel = hiltViewModel(),
-    onStartStopClick: (Long) -> Unit
+    onStartStopClick: (UserPreferencesForNotification) -> Unit
 ){
-    val theme = "dark"
     var textColor = Color.Black
     var backgroundColor = Color.White
     if(viewModel.darkThemeState) {
@@ -37,6 +37,11 @@ fun CountdownScreen(
 
     var duration by remember { mutableStateOf(0L) }
 
+    val emitObject = UserPreferencesForNotification(
+        duration = duration,
+        showNotificationState = viewModel.showNotificationState,
+        notificationSoundState = viewModel.muteNotificationState
+    )
     Scaffold(
         topBar = {
             Row(
@@ -83,7 +88,7 @@ fun CountdownScreen(
                 color = textColor,
                 isRunning =  viewModel.isRunning.value,
                 onClick = {
-                    onStartStopClick(duration)
+                    onStartStopClick(emitObject)
                     viewModel.onClick()
                 }
             )

@@ -46,8 +46,10 @@ class MainActivity : ComponentActivity() {
                             CountdownScreen(
                                 navController = navController
                             ){
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                    startCountdownService(ACTION_START_OR_RESUME_SERVICE, it)
+                                if (it.showNotificationState) {
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                        startCountdownService(ACTION_START_OR_RESUME_SERVICE, it)
+                                    }
                                 }
                             }
                         }
@@ -59,7 +61,6 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                     }
-
                 }
             }
         }

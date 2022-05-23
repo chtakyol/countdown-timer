@@ -1,5 +1,6 @@
 package com.oolong.countdown_timer.presentation.settings_screen
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -107,7 +108,11 @@ fun SettingsScreen(
                     cardHeader = "Dark theme",
                     cardExplanation = "Enable dark theme",
                     isChecked = viewModel.darkThemeState,
-                    isDark = viewModel.darkThemeState
+                    isDark = viewModel.darkThemeState,
+                    isLocked = viewModel.isDarkThemeLocked,
+                    onLockedClicked = {
+                        viewModel.onEvent(SettingsScreenEvent.DarkThemeWatchAdButton)
+                    }
                 ) {
                     viewModel.darkThemeState = it
                     viewModel.onEvent(SettingsScreenEvent.DarkThemeToggleButton)
@@ -126,7 +131,7 @@ fun SettingsScreen(
                     cardHeader = "Get pro",
                     cardExplanation = "Get app pro version and remove ads",
                     isChecked = viewModel.proState,
-                    isDark = viewModel.darkThemeState
+                    isDark = viewModel.darkThemeState,
                 ) {
                     viewModel.proState = it
                     viewModel.onEvent(SettingsScreenEvent.GetProButton)

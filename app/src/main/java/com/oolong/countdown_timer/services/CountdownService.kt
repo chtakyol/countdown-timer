@@ -30,6 +30,7 @@ class CountdownService: LifecycleService() {
     companion object {
         val isRunning = mutableStateOf(false)
         val durationInMillis = mutableStateOf(0L)
+        val notificationSoundState = mutableStateOf(false)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -39,6 +40,7 @@ class CountdownService: LifecycleService() {
                     Log.d("Service", "Service start or resume")
                     setTimerDuration(it.getLongExtra("duration", 0L))
                     Log.d("Service", durationInMillis.toString())
+                    setNotificationSoundState(it.getBooleanExtra("notificationSoundState", true))
                     startCountdownForegroundService()
                     startTimer()
                 }
@@ -58,6 +60,10 @@ class CountdownService: LifecycleService() {
 
     private fun setTimerDuration(duration: Long) {
         CountdownService.durationInMillis.value = duration
+    }
+
+    private fun setNotificationSoundState(state: Boolean) {
+        notificationSoundState.value = state
     }
 
     private fun startTimer() {

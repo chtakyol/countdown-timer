@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.oolong.countdown_timer.domain.repository.UserPreferencesRepository
 import com.oolong.countdown_timer.utils.Constants.DARK_THEME_ENABLE
 import com.oolong.countdown_timer.utils.Constants.GET_PRO_STATE
+import com.oolong.countdown_timer.utils.Constants.IS_DARK_THEME_LOCKED
 import com.oolong.countdown_timer.utils.Constants.MUTE_NOTIFICATION_SOUND
 import com.oolong.countdown_timer.utils.Constants.SHOW_NOTIFICATION
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,9 +23,9 @@ class SettingsScreenViewModel @Inject constructor(
 
     var showNotificationState by mutableStateOf(true)
     var muteNotificationState by mutableStateOf(true)
+    var isDarkThemeLocked by mutableStateOf(true)
     var darkThemeState by mutableStateOf(false)
     var proState by mutableStateOf(false)
-
 
     init {
         getUserPreferences()
@@ -45,6 +46,15 @@ class SettingsScreenViewModel @Inject constructor(
                     userPreferencesRepository.putBoolean(
                         MUTE_NOTIFICATION_SOUND,
                         muteNotificationState
+                    )
+                }
+            }
+            SettingsScreenEvent.DarkThemeWatchAdButton -> {
+                isDarkThemeLocked = false
+                viewModelScope.launch {
+                    userPreferencesRepository.putBoolean(
+                        IS_DARK_THEME_LOCKED,
+                        isDarkThemeLocked
                     )
                 }
             }
@@ -72,14 +82,18 @@ class SettingsScreenViewModel @Inject constructor(
             userPreferencesRepository.getBoolean(SHOW_NOTIFICATION).let {
                 if (it != null) {
                     showNotificationState = it
-                    Log.d("SettingsViewModel", "SHOW_NOTIFICATION $it")
                 }
             }
 
             userPreferencesRepository.getBoolean(MUTE_NOTIFICATION_SOUND).let {
                 if (it != null) {
                     muteNotificationState = it
-                    Log.d("SettingsViewModel", "MUTE_NOTIFICATION_SOUND $it")
+                }
+            }
+
+            userPreferencesRepository.getBoolean(IS_DARK_THEME_LOCKED).let {
+                if (it != null) {
+                    isDarkThemeLocked = it
                 }
             }
 
