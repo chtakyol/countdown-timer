@@ -98,6 +98,7 @@ class CountdownService: LifecycleService() {
                 }
                 delay(1000)
             }
+            stopSelf()
         }
     }
 
@@ -131,5 +132,10 @@ class CountdownService: LifecycleService() {
             NotificationManager.IMPORTANCE_LOW
         )
         notificationManager.createNotificationChannel(channel)
+    }
+
+    override fun onDestroy() {
+        Log.d("CountdownService", "Service destroyed!")
+        super.onDestroy()
     }
 }

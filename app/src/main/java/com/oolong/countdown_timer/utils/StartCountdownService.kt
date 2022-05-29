@@ -13,6 +13,10 @@ fun Context.startCountdownService(action: String, userPreferencesForNotification
         it.putExtra("duration", userPreferencesForNotification.duration)
         it.putExtra("showNotificationState", userPreferencesForNotification.showNotificationState)
         it.putExtra("notificationSoundState", userPreferencesForNotification.notificationSoundState)
-        this.startForegroundService(it)
+        if (userPreferencesForNotification.isRunning) {
+            this.stopService(it)
+        } else {
+            this.startForegroundService(it)
+        }
     }
 }

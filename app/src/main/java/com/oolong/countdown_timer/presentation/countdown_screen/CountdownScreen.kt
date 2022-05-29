@@ -38,6 +38,7 @@ fun CountdownScreen(
     var duration by remember { mutableStateOf(0L) }
 
     val emitObject = UserPreferencesForNotification(
+        isRunning = viewModel.isRunning.value,
         duration = duration,
         showNotificationState = viewModel.showNotificationState,
         notificationSoundState = viewModel.muteNotificationState
@@ -88,8 +89,8 @@ fun CountdownScreen(
                 color = textColor,
                 isRunning =  viewModel.isRunning.value,
                 onClick = {
-                    onStartStopClick(emitObject)
                     viewModel.onClick()
+                    onStartStopClick(emitObject)
                 }
             )
         }
