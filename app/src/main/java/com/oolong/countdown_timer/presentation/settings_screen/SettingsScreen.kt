@@ -75,16 +75,6 @@ fun SettingsScreen(
                     color = textColor
                 )
                 SettingsCardItem(
-                    imageVector = Icons.Default.RemoveRedEye,
-                    cardHeader = "Show notification",
-                    cardExplanation = "Hide or show notification",
-                    isChecked = viewModel.showNotificationState,
-                    isDark = viewModel.darkThemeState
-                ) {
-                    viewModel.showNotificationState = it
-                    viewModel.onEvent(SettingsScreenEvent.ShowNotificationToggleButton)
-                }
-                SettingsCardItem(
                     imageVector = Icons.Default.VolumeMute,
                     cardHeader = "Mute notification",
                     cardExplanation = "Mute or un-mute notification",

@@ -56,6 +56,7 @@ class CountdownService: LifecycleService() {
                     Log.d("Service", durationInMillis.toString())
                     setNotificationSoundState(it.getBooleanExtra("notificationSoundState", true))
                     setShowNotificationState((it.getBooleanExtra("showNotificationState", false)))
+                    Log.d("Service", "${showNotificationState.value}")
                     startCountdownForegroundService()
                     startTimer()
                 }

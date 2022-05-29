@@ -34,12 +34,6 @@ class CountdownScreenViewModel @Inject constructor(
 
     private fun getUserPreferences() {
         viewModelScope.launch {
-            userPreferencesRepository.getBoolean(Constants.SHOW_NOTIFICATION).let {
-                if (it != null) {
-                    showNotificationState = it
-                }
-            }
-
             userPreferencesRepository.getBoolean(Constants.MUTE_NOTIFICATION_SOUND).let {
                 if (it != null) {
                     muteNotificationState = it

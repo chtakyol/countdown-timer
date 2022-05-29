@@ -11,7 +11,6 @@ import com.oolong.countdown_timer.utils.Constants.DARK_THEME_ENABLE
 import com.oolong.countdown_timer.utils.Constants.GET_PRO_STATE
 import com.oolong.countdown_timer.utils.Constants.IS_DARK_THEME_LOCKED
 import com.oolong.countdown_timer.utils.Constants.MUTE_NOTIFICATION_SOUND
-import com.oolong.countdown_timer.utils.Constants.SHOW_NOTIFICATION
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -21,7 +20,6 @@ class SettingsScreenViewModel @Inject constructor(
     private val userPreferencesRepository: UserPreferencesRepository
 ): ViewModel() {
 
-    var showNotificationState by mutableStateOf(true)
     var muteNotificationState by mutableStateOf(true)
     var isDarkThemeLocked by mutableStateOf(true)
     var darkThemeState by mutableStateOf(false)
@@ -33,14 +31,6 @@ class SettingsScreenViewModel @Inject constructor(
 
     fun onEvent(event: SettingsScreenEvent) {
         when (event) {
-            is SettingsScreenEvent.ShowNotificationToggleButton -> {
-                viewModelScope.launch {
-                    userPreferencesRepository.putBoolean(
-                        SHOW_NOTIFICATION,
-                        showNotificationState
-                    )
-                }
-            }
             SettingsScreenEvent.NotificationSoundToggleButton -> {
                 viewModelScope.launch {
                     userPreferencesRepository.putBoolean(
@@ -79,12 +69,6 @@ class SettingsScreenViewModel @Inject constructor(
 
     private fun getUserPreferences() {
         viewModelScope.launch {
-            userPreferencesRepository.getBoolean(SHOW_NOTIFICATION).let {
-                if (it != null) {
-                    showNotificationState = it
-                }
-            }
-
             userPreferencesRepository.getBoolean(MUTE_NOTIFICATION_SOUND).let {
                 if (it != null) {
                     muteNotificationState = it
