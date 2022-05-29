@@ -11,8 +11,10 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.LifecycleService
 import com.oolong.countdown_timer.MainActivity
+import com.oolong.countdown_timer.R
 import com.oolong.countdown_timer.utils.Constants.ACTION_PAUSE_SERVICE
 import com.oolong.countdown_timer.utils.Constants.ACTION_START_OR_RESUME_SERVICE
 import com.oolong.countdown_timer.utils.Constants.ACTION_STOP_SERVICE
@@ -30,8 +32,20 @@ class CountdownService: LifecycleService() {
     companion object {
         val isRunning = mutableStateOf(false)
         val durationInMillis = mutableStateOf(0L)
+        val showNotificationState = mutableStateOf(false)
         val notificationSoundState = mutableStateOf(false)
     }
+
+    private val notificationBuilder = NotificationCompat.Builder(
+        this,
+        NOTIFICATION_CHANNEL_ID
+    )
+        .setAutoCancel(false)
+        .setOngoing(true)
+        .setSmallIcon(R.drawable.ic_baseline_timer_24)
+        .setContentTitle("Background Timer")
+        .setContentText(Utilities.getNotificationText(durationInMillis.value))
+
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         intent?.let {
@@ -41,6 +55,7 @@ class CountdownService: LifecycleService() {
                     setTimerDuration(it.getLongExtra("duration", 0L))
                     Log.d("Service", durationInMillis.toString())
                     setNotificationSoundState(it.getBooleanExtra("notificationSoundState", true))
+                    setShowNotificationState((it.getBooleanExtra("showNotificationState", false)))
                     startCountdownForegroundService()
                     startTimer()
                 }
@@ -66,11 +81,20 @@ class CountdownService: LifecycleService() {
         notificationSoundState.value = state
     }
 
+    private fun setShowNotificationState(state: Boolean) {
+        showNotificationState.value = state
+    }
+
     private fun startTimer() {
         CoroutineScope(Dispatchers.Main).launch {
             while(durationInMillis.value > 0 && isRunning.value) {
-                Log.d("CountdownService", durationInMillis.value.toString())
+                Log.d("CountdownService", Utilities.getNotificationText(durationInMillis.value))
                 durationInMillis.value -= 1000
+                notificationBuilder.setContentText(Utilities.getNotificationText(durationInMillis.value))
+                with(NotificationManagerCompat.from(this@CountdownService)) {
+                    // notificationId is a unique int for each notification that you must define
+                    notify(NOTIFICATION_ID, notificationBuilder.build())
+                }
                 delay(1000)
             }
         }
@@ -90,16 +114,7 @@ class CountdownService: LifecycleService() {
             createNotificationChannel(notificationManager)
         }
 
-        val notificationBuilder = NotificationCompat.Builder(
-            this,
-            NOTIFICATION_CHANNEL_ID
-        )
-            .setAutoCancel(false)
-            .setOngoing(true)
-//            .setSmallIcon(R.drawable.ic_baseline_alarm_24)
-            .setContentTitle("Background Timer")
-            .setContentText(Utilities.getNotificationText(durationInMillis.value))
-            .setContentIntent(getMainActivityPendingIntent())
+        notificationBuilder.setContentIntent(getMainActivityPendingIntent())
 
         startForeground(
             NOTIFICATION_ID,
