@@ -17,6 +17,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import com.oolong.countdown_timer.utils.Utilities
 import kotlinx.coroutines.launch
 import kotlin.math.abs
 import kotlin.math.roundToInt
@@ -95,18 +96,18 @@ fun NumberPicker(
             val baseLabelModifier = Modifier.align(Alignment.Center)
             ProvideTextStyle(textStyle) {
                 Label(
-                    text = (animatedStateValue - 1).toString(),
+                    text = Utilities.getStringWithZeroAtHead(animatedStateValue - 1),
                     modifier = baseLabelModifier
                         .offset(y = -halvedNumbersColumnHeight)
                         .alpha(coercedAnimatedOffset / halvedNumbersColumnHeightPx)
                 )
                 Label(
-                    text = animatedStateValue.toString(),
+                    text = Utilities.getStringWithZeroAtHead(animatedStateValue),
                     modifier = baseLabelModifier
                         .alpha(1 - abs(coercedAnimatedOffset) / halvedNumbersColumnHeightPx)
                 )
                 Label(
-                    text = (animatedStateValue + 1).toString(),
+                    text = Utilities.getStringWithZeroAtHead(animatedStateValue + 1),
                     modifier = baseLabelModifier
                         .offset(y = halvedNumbersColumnHeight)
                         .alpha(-coercedAnimatedOffset / halvedNumbersColumnHeightPx)
