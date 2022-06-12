@@ -108,6 +108,7 @@ class CountdownService: LifecycleService() {
                 }
                 delay(1000)
             }
+            isRunning.value = false
             stopSelf()
         }
     }
