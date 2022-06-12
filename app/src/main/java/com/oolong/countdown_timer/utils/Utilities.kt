@@ -1,5 +1,9 @@
 package com.oolong.countdown_timer.utils
 
+import android.app.Activity
+import android.content.Context
+import android.content.ContextWrapper
+
 object Utilities {
     fun getMin(duration: Long): Int {
         return (duration / 60000).toInt()
@@ -27,5 +31,11 @@ object Utilities {
         } else {
             "0${getMin(duration)}:0${getSec(duration)}"
         }
+    }
+
+    fun Context.findActivity(): Activity? = when(this) {
+        is Activity -> this
+        is ContextWrapper -> baseContext.findActivity()
+        else -> null
     }
 }
