@@ -1,5 +1,9 @@
 package com.oolong.countdown_timer.utils
 
+import android.app.Activity
+import android.content.Context
+import android.content.ContextWrapper
+
 object Utilities {
     fun getMin(duration: Long): Int {
         return (duration / 60000).toInt()
@@ -9,7 +13,29 @@ object Utilities {
         return (duration/1000 - (duration / 60000) * 60).toInt()
     }
 
+    fun getStringWithZeroAtHead(value: Int): String {
+        return if (value > 9) {
+            "$value"
+        } else {
+            "0$value"
+        }
+    }
+
     fun getNotificationText(duration: Long): String {
-        return "${getMin(duration)}:${getSec(duration)}"
+        return if (getMin(duration) > 9 && getSec(duration) > 9) {
+            "${getMin(duration)}:${getSec(duration)}"
+        } else if (getMin(duration) > 9 && getSec(duration) < 10) {
+            "${getMin(duration)}:0${getSec(duration)}"
+        } else if (getMin(duration) < 10 && getSec(duration) > 10) {
+            "0${getMin(duration)}:${getSec(duration)}"
+        } else {
+            "0${getMin(duration)}:0${getSec(duration)}"
+        }
+    }
+
+    fun Context.findActivity(): Activity? = when(this) {
+        is Activity -> this
+        is ContextWrapper -> baseContext.findActivity()
+        else -> null
     }
 }

@@ -5,21 +5,29 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdSize
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
 import com.oolong.countdown_timer.presentation.countdown_screen.CountdownScreen
 import com.oolong.countdown_timer.presentation.countdown_screen.components.Timer
 import com.oolong.countdown_timer.presentation.settings_screen.SettingsScreen
 import com.oolong.countdown_timer.ui.theme.CountdowntimerTheme
 import com.oolong.countdown_timer.utils.Constants.ACTION_START_OR_RESUME_SERVICE
 import com.oolong.countdown_timer.utils.Screen
+import com.oolong.countdown_timer.utils.addInterstitialCallbacks
+import com.oolong.countdown_timer.utils.loadInterstitialAd
 import com.oolong.countdown_timer.utils.startCountdownService
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -27,6 +35,11 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        MobileAds.initialize(this) {}
+        loadInterstitialAd(this)
+        addInterstitialCallbacks(this)
+
         setContent {
             CountdowntimerTheme {
                 // A surface container using the 'background' color from the theme

@@ -11,6 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.oolong.countdown_timer.utils.Utilities
 
 @Composable
 fun Timer(
@@ -39,7 +40,7 @@ fun Timer(
                 }
             } else {
                 Text(
-                    text = min.toString(),
+                    text = Utilities.getStringWithZeroAtHead(min),
                     color = color,
                     style = MaterialTheme.typography.body2.copy(color = color)
                 )
@@ -64,7 +65,7 @@ fun Timer(
                 }
             } else {
                 Text(
-                    text = sec.toString(),
+                    text = Utilities.getStringWithZeroAtHead(sec),
                     color = color,
                     style = MaterialTheme.typography.body2.copy(color = color)
                 )

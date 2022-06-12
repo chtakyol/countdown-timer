@@ -1,5 +1,6 @@
 package com.oolong.countdown_timer.presentation.countdown_screen
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -10,21 +11,22 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.oolong.countdown_timer.presentation.countdown_screen.components.StartStopButton
 import com.oolong.countdown_timer.presentation.countdown_screen.components.Timer
-import com.oolong.countdown_timer.utils.Screen
-import com.oolong.countdown_timer.utils.UserPreferencesForNotification
-import com.oolong.countdown_timer.utils.Utilities
+import com.oolong.countdown_timer.utils.*
 
+@SuppressLint("MissingPermission")
 @Composable
 fun CountdownScreen(
     navController: NavController,
     viewModel: CountdownScreenViewModel = hiltViewModel(),
     onStartStopClick: (UserPreferencesForNotification) -> Unit
 ){
+    val context = LocalContext.current
     var textColor = Color.Black
     var backgroundColor = Color.White
     if(viewModel.darkThemeState) {
@@ -91,8 +93,10 @@ fun CountdownScreen(
                 onClick = {
                     viewModel.onClick()
                     onStartStopClick(emitObject)
+                    showInterstitial(context)
                 }
             )
+            BannerAd()
         }
     }
 }
