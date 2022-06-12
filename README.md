@@ -1,5 +1,6 @@
 # countdown-timer
-Android countdown app.
+Over-engineered background countdown timer app for Android (for learning purpuse :)).
 
-App run background using foreground services.
-Note: I've tried to apply clean architecture principles, so it might look like a bit over-engineered for a countdown app :).
+Notify with Android's Foreground Services and Nootificaiton.
+
+UI nade with Jetpack Compose and number picker implemented with [this]([https://www.example.com](https://gist.github.com/vganin/a9a84653a9f48a2d669910fbd48e32d5)) gist.
